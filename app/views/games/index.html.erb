@@ -2,9 +2,9 @@
 
 <ul>
 <% @games.each do |game| %>
-  <li> <%= game['character'] %></li>
-  <li> <%= game['house'] %></li>
-  <li> <%= game['city'] %></li>
+  <li> <%= game.character %></li>
+  <li> <%= game.house %></li>
+  <li> <%= game.city %></li>
   <br>
 <% end %>
 </ul>

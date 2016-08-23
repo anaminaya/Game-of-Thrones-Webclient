@@ -1,12 +1,16 @@
 class GamesController < ApplicationController
 
   def index
-    @games = Unirest.get('http://localhost:3000/api/v1/games.json').body
+    api_games = Unirest.get('http://localhost:3000/api/v1/games.json').body
+    @games = []
+    api_games.each do |api_game|
+    @games << Game.new(api_game)
+    end
+
   end
 
   def show
-    @game = Unirest.get('http://localhost:3000/api/v1/games/#{params[:id]}.json').body
-
+    @game = Game.find_by(id: params[:id])
   end
 
 
@@ -26,7 +30,7 @@ class GamesController < ApplicationController
   end
 
   def edit
-    @game = Unirest.get('http://localhost:3000/api/v1/games/#{params[:id]}.json').body
+    @game = Unirest.get("http://localhost:3000/api/v1/games/#{params[:id]}.json").body
   end
 
   def update
@@ -42,10 +46,8 @@ class GamesController < ApplicationController
   end
 
   def destroy
-    @game = Unirest.delete('http://localhost:3000/api/v1/games/#{params[:id]',
-    headers: {"Accept" => "application/json"}
-    ).body
-
+    @game = Game.find_by(id: params[:id])
+    @game.destroy
     redirect_to '/games'
 
   end
